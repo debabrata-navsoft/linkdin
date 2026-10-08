@@ -16,9 +16,14 @@ export const protectRoute = async (req, res, next) => {
 			return res.status(401).json({ message: "Unauthorized - Invalid Token" });
 		}
 
-		const user = await User.findById(decoded.userId).select("-password");
+		const user = await User.findById(decoded.userId).select("-password +passwordChangedAt");
 		if (!user) {
 			return res.status(401).json({ message: "User not found" });
+		}
+
+		// Reject tokens issued before the last password change
+		if (user.passwordChangedAt && decoded.iat * 1000 < user.passwordChangedAt.getTime()) {
+			return res.status(401).json({ message: "Unauthorized - Password was changed" });
 		}
 
 		req.user = user;

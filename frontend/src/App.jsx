@@ -3,6 +3,8 @@ import Layout from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import toast, { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./lib/axios";
@@ -12,6 +14,7 @@ import PostSharePage from "./pages/PostSharePage";
 import ProfilePage from "./pages/ProfilePage";
 import SuggestionsPage from "./pages/SuggestionsPage";
 import PostCreateMobile from "./pages/PostCreateMobile";
+import SecurityPage from "./pages/SecurityPage";
 
 
 function App() {
@@ -41,12 +44,15 @@ function App() {
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
         <Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
         <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
+        <Route path='/forgot-password' element={!authUser ? <ForgotPasswordPage /> : <Navigate to={"/"} />} />
+        <Route path='/reset-password/:token' element={!authUser ? <ResetPasswordPage /> : <Navigate to={"/"} />} />
         <Route path="/create-post" element={authUser ? <PostCreateMobile /> : <Navigate to={"/login"} />} />
         <Route path='/notifications' element={authUser ? <NotificationsPage /> : <Navigate to={"/login"} />} />
         <Route path='/network' element={authUser ? <NetworkPage /> : <Navigate to={"/login"} />} />
         <Route path='/post/:postId' element={authUser ? <PostSharePage /> : <Navigate to={"/login"} />} />
         <Route path="/posts/:postId" element={authUser ? <PostSharePage /> : <Navigate to={"/login"} />} />
         <Route path='/profile/:username' element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />} />
+        <Route path="/security" element={authUser ? <SecurityPage /> : <Navigate to={"/login"} />} />
         <Route path="/suggestions" element={authUser ? <SuggestionsPage /> : <Navigate to={"/login"} />} />
       </Routes>
       <Toaster />

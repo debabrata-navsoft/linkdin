@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Bell, Home, LogOut, Search, User, Users, SquarePlus, X } from "lucide-react";
+import { Bell, Home, LogOut, Search, Shield, User, Users, SquarePlus, X } from "lucide-react";
 
 
 
@@ -303,6 +303,14 @@ const Navbar = () => {
 													>
 														<User size={16} className="mr-2" />
 														Profile
+													</Link>
+													<Link
+														to="/security"
+														onClick={() => setIsDropdownOpen(false)}
+														className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
+													>
+														<Shield size={16} className="mr-2" />
+														Security
 													</Link>
 													<button
 														// onClick={() => logout()}
