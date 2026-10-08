@@ -47,7 +47,9 @@ const Navbar = () => {
 	const { mutate: logout } = useMutation({
 		mutationFn: () => axiosInstance.post("/auth/logout"),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+			// Drop the previous user's cached data (chats, notifications, ...) and log out without re-asking the server
+			queryClient.removeQueries({ predicate: (query) => query.queryKey[0] !== "authUser" });
+			queryClient.setQueryData(["authUser"], null);
 			toast.success("Logged out successfully");
 		},
 		onError: () => {

@@ -23,15 +23,11 @@ import FloatingChat from "./components/chat/FloatingChat";
 function App() {
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
+    // null when logged out
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/auth/me");
-        return res.data;
+        return (await axiosInstance.get("/auth/me")).data;
       } catch (err) {
-        if (err.response?.status === 401) {
-          console.log("Auth Check: 401 Unauthorized - User is not logged in.");
-          return null;
-        }
         toast.error(err.response?.data?.message || "Something went wrong");
         return null;
       }

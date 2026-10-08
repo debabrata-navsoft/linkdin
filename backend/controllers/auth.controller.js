@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "../emails/emailHandlers.js";
 import validator from "validator";
 import crypto from "crypto";
+import { getUserFromToken } from "../middleware/auth.middleware.js";
 
 
 
@@ -142,9 +143,11 @@ export const logout = (req, res) => {
 };
 
 
+// Public route: answers null (not 401) when logged out, so the frontend's auth check isn't a failed request
 export const getCurrentUser = async (req, res) => {
 	try {
-		res.json(req.user);
+		const token = req.cookies["jwt-linkedin"];
+		res.json(token ? await getUserFromToken(token) : null);
 	} catch (error) {
 		console.error("Error in getCurrentUser controller:", error);
 		res.status(500).json({ message: "Server error" });
